@@ -1,3 +1,9 @@
+"""
+Veggerant: My Game Design game
+
+Author: Simon Lopez-Trujillo
+"""
+
 import pygame
 
 def main():
