@@ -1,5 +1,6 @@
 """
 Veggerant: My Game Design game
+Will be a unique platformer designed to find ways to move the character.
 
 Author: Simon Lopez-Trujillo
 """
