@@ -5,6 +5,7 @@ Will be a unique platformer designed to find ways to move the character.
 Author: Simon Lopez-Trujillo
 """
 
+import os
 import pygame
 
 def main():
@@ -13,7 +14,12 @@ def main():
     pygame.font.init()
 
     # Set up display
-    screen = pygame.display.set_mode((800, 600))
+    RESOLUTION = (400, 200)
+    SCALE = 2
+    UPSCALED = [int(x * SCALE) for x in RESOLUTION]
+    
+    screen = pygame.display.set_mode(list(UPSCALED))   
+    drawSurface = pygame.Surface(list(RESOLUTION))
 
     # Set up texts
     basicText = pygame.font.SysFont('Arial', 20)
@@ -26,17 +32,26 @@ def main():
                 running = False
 
         # Fill the screen with a color (RGB)
-        screen.fill((0, 50, 255))
+        drawSurface.fill((0, 50, 255))
+
+       
+
+
+        #Egg Sprite Sheet
+        egg = pygame.image.load(os.path.join("Game Sprites.png")).convert()
+        #drawSurface.blit(egg, (200, 100))
+        egg.set_colorkey((0, 0, 0))
+        drawSurface.blit(egg, (200, 100), pygame.Rect(0, 0, 16, 16))
+
 
         #Game Text
         helloWorld = basicText.render("hello world", False, (255,0,0))
-        screen.blit(helloWorld, (0,0))
+        drawSurface.blit(helloWorld, (0,0))
 
-        #Egg Sprite Sheet
-        #starSurf = pygame.Surface((10, 10))
-        #rect = pygame.Rect(10*2, 0, 10, 10)
-        #starSurf.blit(star.png, (0,0), rect)
 
+        pygame.transform.scale(drawSurface,
+                            list(UPSCALED),
+                            screen)
         # Update the display
         pygame.display.flip()
 
