@@ -36,13 +36,13 @@ def main():
 
        
 
-
+        """
         #Egg Sprite Sheet
         egg = pygame.image.load(os.path.join("Game Sprites.png")).convert()
         #drawSurface.blit(egg, (200, 100))
         egg.set_colorkey((0, 0, 0))
         drawSurface.blit(egg, (200, 100), pygame.Rect(0, 0, 16, 16))
-
+        """
 
         #Game Text
         helloWorld = basicText.render("hello world", False, (255,0,0))
