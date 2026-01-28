@@ -7,41 +7,35 @@ Author: Simon Lopez-Trujillo
 #Imports
 import pygame
 from GameEngine import GameEngine
+from vector import vec, pyVec
+RESOLUTION = vec(400, 200)
+SCALE = 2
+UPSCALED = RESOLUTION * SCALE
 
 #____________________________________________________________Game Setup____________________________________________________________
 def main():
-#Initialize Pygame
+
     pygame.init()
     pygame.font.init()
 
-#Set up display
-    RESOLUTION = (400, 200)
-    SCALE = 2
-    UPSCALED = [int(x * SCALE) for x in RESOLUTION]
-    
-    screen = pygame.display.set_mode(list(UPSCALED))   
-    drawSurface = pygame.Surface(list(RESOLUTION))
+    screen = pygame.display.set_mode(pyVec(UPSCALED))   
+    drawSurface = pygame.Surface(pyVec(RESOLUTION))
 
-#Game Clock
+    game = GameEngine()
+    
     gameClock = pygame.time.Clock()
 
-#Game Run Control
-    RUNNING = True
-    game = GameEngine()
 
+    RUNNING = True
+    
 #____________________________________________________________Main Loop Start____________________________________________________________   
     while RUNNING:
-
-#------------------------------------------------------------Display World------------------------------------------------------------        
     
-    
-    #Upscale Images
-        pygame.transform.scale(drawSurface, list(UPSCALED), screen)
-
-    #draw game objects    
+#------------------------------------------------------------Display World------------------------------------------------------------           
         game.draw(drawSurface)
+    
+        pygame.transform.scale(drawSurface, pyVec(UPSCALED), screen)
 
-    #Update the display
         pygame.display.flip()
 #------------------------------------------------------------Event Keys------------------------------------------------------------
         for event in pygame.event.get():

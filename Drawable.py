@@ -1,19 +1,36 @@
-import pygame
-import os
-import vector
+from pygame import image, Surface, SRCALPHA
+from os.path import join
+from vector import vec, pyVec
+from spriteManager import SpriteManager
 
-class drawable(object):
+class Drawable(object):
+    def __init__(self, position=vec(0,0), fileName="", offset=None, transparency=False, colorkey=False):
+        if fileName != "":
+            sm = SpriteManager.getInstance()
+            self.image = sm.getSprite(fileName, offset)
+        self.position=vec(*position)
+    
+    def draw(self, drawSurface):        
+        drawSurface.blit(self.image, pyVec(self.position))
+         
+    def getSize(self):
+        return vec(*self.image.get_size())    
+   
+    def getWidth(self):
+        return self.getSize()[0]
+    
+    def getHeight(self):
+        return self.getSize()[1]
 
-    def __init__(self, image, position):
-        pygame.init()
-        #The image to draw on screenDisplay
-        self.image = pygame.image.load(os.path.join(image)).convert()
-        self.image.set_colorkey((0,0,0))
-        #Where to draw the image
-        self.position = position
-
-    def draw(self, drawSurface):
-        drawSurface.blit(self.image, vector.pyVec(self.position))
+    def getPosition(self):
+        return self.position
+    
+    def setPosition(self, newPosition):
+        self.position = vec(*newPosition)
+    
+    def handleEvent(self, event):
+        pass
     
     def update(self, seconds):
         pass
+      
