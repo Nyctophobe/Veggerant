@@ -3,6 +3,7 @@ from random import randint
 from Drawable import Drawable
 from Movable import Mobile, Player
 from os.path import join
+from Constants import *
 
 class GameEngine(object):
     def __init__(self):
@@ -11,6 +12,7 @@ class GameEngine(object):
         self.y = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16), colorkey = True)
         self.z = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16), colorkey = True)
         self.eggSpeed = 100
+        self.dragged = None
 
         self.collidables = [self.x, self.y, self.z]
 
@@ -51,20 +53,31 @@ class GameEngine(object):
                 
                 These will be my 4 main goals of movement, though they may not be fully implemented in all their interactions
                 """
-        
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            position = vec(*event.pos)//SCALE
+            if self.egg.getCollisionRect().collidepoint(position):
+                self.dragged = self.egg
+                self.mouseOffset = self.egg.getPosition() - position
+        elif event.type == pygame.MOUSEBUTTONUP:
+            self.dragged = None
+        elif event.type == pygame.MOUSEMOTION:
+            position = vec(*event.pos)//SCALE
+
+            if self.dragged != None:
+                self.dragged.position = position + self.mouseOffset
 
     def update(self, seconds):
         self.egg.update(seconds)
         #Prevents Egg from escaping Window
         if self.egg.getPosition()[0] <= 0:
             self.egg.position[0] = 0
-        if self.egg.getPosition()[0] + self.egg.getWidth() >= 400:
-            self.egg.position[0] = 400-16   
+        if self.egg.getPosition()[0] + self.egg.getWidth() >= RESOLUTION[0]:
+            self.egg.position[0] = RESOLUTION[0]-16   
         if self.egg.getPosition()[1] <= 0:
             self.egg.position[1] = 0
-        if self.egg.getPosition()[1] + self.egg.getWidth() >= 200:
+        if self.egg.getPosition()[1] + self.egg.getWidth() >= RESOLUTION[1]:
             self.egg.velocity[1] = 0
-            self.egg.position[1] = 200-16
+            self.egg.position[1] = RESOLUTION[1]-16
             
         for c in self.collidables:
             collision = self.egg.getCollisionRect().clip(c.getCollisionRect())
