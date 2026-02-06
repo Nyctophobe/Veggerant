@@ -33,7 +33,7 @@ class SpriteManager(object):
     ### PROPERTIES TO CHANGE TO ADD NEW IMAGES ###
     
     # Static information about the sprite sizes of particular image sheets.
-    _SPRITE_SIZES = {"Game Sprites.png" : (16, 16)
+    _SPRITE_SIZES = {"Game Sprites.png" : (16, 16), "kirby.png" : (16,16)
     }
     
     # A default sprite size
@@ -48,7 +48,7 @@ class SpriteManager(object):
     _TRANSPARENCY = []
     
     # A list of images that require to be loaded with a color key
-    _COLOR_KEY = ["Game Sprites.png"]
+    _COLOR_KEY = ["Game Sprites.png", "kirby.png"]
     
     def __init__(self):
         """Creation of the SpriteManager, sets up storage for surface.

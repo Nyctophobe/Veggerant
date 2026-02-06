@@ -4,7 +4,8 @@ from vector import vec, pyVec, rectAdd
 from spriteManager import SpriteManager
 
 class Drawable(object):
-    def __init__(self, position=vec(0,0), fileName="", offset=None, transparency=False, colorkey=False):
+    def __init__(self, position=vec(0,0), fileName="", offset=None):
+        self.fileName = fileName
         if fileName != "":
             sm = SpriteManager.getInstance()
             self.image = sm.getSprite(fileName, offset)

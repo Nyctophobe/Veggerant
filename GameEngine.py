@@ -7,10 +7,11 @@ from Constants import *
 
 class GameEngine(object):
     def __init__(self):
-        self.egg = Player((0,0), "Game Sprites.png", (0,0, 16, 16), colorkey = True)
-        self.x = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16), colorkey = True)
-        self.y = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16), colorkey = True)
-        self.z = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16), colorkey = True)
+        self.egg = Player((0,0), "kirby.png", (0,1))
+        self.egg.animate = True
+        self.x = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16))
+        self.y = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16))
+        self.z = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16))
         self.eggSpeed = 100
         self.dragged = None
 
