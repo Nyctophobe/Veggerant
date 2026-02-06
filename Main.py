@@ -8,8 +8,7 @@ Author: Simon Lopez-Trujillo
 import pygame
 from GameEngine import GameEngine
 from vector import vec, pyVec
-RESOLUTION = vec(400, 200)
-SCALE = 2
+from Constants import *
 UPSCALED = RESOLUTION * SCALE
 
 #____________________________________________________________Game Setup____________________________________________________________
