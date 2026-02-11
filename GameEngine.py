@@ -7,18 +7,19 @@ from Constants import *
 
 class GameEngine(object):
     def __init__(self):
-        self.egg = Player((0,0), "kirby.png", (0,1))
-        self.egg.animate = True
-        self.x = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16))
-        self.y = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16))
-        self.z = Drawable((randint(50, 350), randint(20, 180)), "Game Sprites.png", (0,0, 16, 16))
-        self.eggSpeed = 100
+        #self.egg = Player((0,0), "kirby.png", (0,1))
+        self.egg = Player((0,0), "Game Sprites.png", (0, 0, 16, 16), maxSpeed = 1000)
+        self.egg.animate = False
+        self.x = Drawable((randint(50, 50), randint(20, 20)), "Game Sprites.png", (0,0, 16, 16))
+        self.y = Drawable((randint(50, WORLD_SIZE[0]-50), randint(20, WORLD_SIZE[1]-20)), "Game Sprites.png", (0,0, 16, 16))
+        self.z = Drawable((randint(50, WORLD_SIZE[0]-50), randint(20, WORLD_SIZE[1]-20)), "Game Sprites.png", (0,0, 16, 16))
+        self.background = Drawable((0,0), "background.png")
         self.dragged = None
 
         self.collidables = [self.x, self.y, self.z]
 
     def draw(self, drawSurface):
-        drawSurface.fill((0, 50, 255))
+        self.background.draw(drawSurface)
         self.egg.draw(drawSurface)
         self.x.draw(drawSurface)
         self.y.draw(drawSurface)
@@ -56,13 +57,15 @@ class GameEngine(object):
                 """
         if event.type == pygame.MOUSEBUTTONDOWN:
             position = vec(*event.pos)//SCALE
-            if self.egg.getCollisionRect().collidepoint(position):
-                self.dragged = self.egg
-                self.mouseOffset = self.egg.getPosition() - position
+            position += Drawable.CAMERA_OFFSET
+            if self.x.getCollisionRect().collidepoint(position):
+                self.dragged = self.x
+                self.mouseOffset = self.x.getPosition() - position
         elif event.type == pygame.MOUSEBUTTONUP:
             self.dragged = None
         elif event.type == pygame.MOUSEMOTION:
             position = vec(*event.pos)//SCALE
+            position += Drawable.CAMERA_OFFSET
 
             if self.dragged != None:
                 self.dragged.position = position + self.mouseOffset
@@ -72,13 +75,13 @@ class GameEngine(object):
         #Prevents Egg from escaping Window
         if self.egg.getPosition()[0] <= 0:
             self.egg.position[0] = 0
-        if self.egg.getPosition()[0] + self.egg.getWidth() >= RESOLUTION[0]:
-            self.egg.position[0] = RESOLUTION[0]-16   
+        if self.egg.getPosition()[0] + self.egg.getWidth() >= WORLD_SIZE_VEC[0]:
+            self.egg.position[0] = WORLD_SIZE_VEC[0]-16   
         if self.egg.getPosition()[1] <= 0:
             self.egg.position[1] = 0
-        if self.egg.getPosition()[1] + self.egg.getWidth() >= RESOLUTION[1]:
+        if self.egg.getPosition()[1] + self.egg.getWidth() >= WORLD_SIZE_VEC[1]:
             self.egg.velocity[1] = 0
-            self.egg.position[1] = RESOLUTION[1]-16
+            self.egg.position[1] = WORLD_SIZE_VEC[1]-16
             
         for c in self.collidables:
             collision = self.egg.getCollisionRect().clip(c.getCollisionRect())
@@ -95,6 +98,11 @@ class GameEngine(object):
                         self.egg.position[1] -= collision.height
                     else:
                         self.egg.position[1] += collision.height
+        
+        Drawable.CAMERA_OFFSET = self.egg.getPosition() + self.egg.getSize()/2 - RESOLUTION / 2
+
+        for i in range(2):
+            Drawable.CAMERA_OFFSET[i] = max(0, min(Drawable.CAMERA_OFFSET[i], WORLD_SIZE[i] - RESOLUTION[i]))
 
 
 

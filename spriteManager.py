@@ -11,6 +11,7 @@ from pygame import image, Surface, Rect, SRCALPHA
 from pygame.transform import scale_by
 from os.path import join
 from vector import vec, pyVec
+from Constants import WORLD_SIZE
 
 class SpriteManager(object):
     """A singleton factory class to create and store sprites on demand.
@@ -33,7 +34,7 @@ class SpriteManager(object):
     ### PROPERTIES TO CHANGE TO ADD NEW IMAGES ###
     
     # Static information about the sprite sizes of particular image sheets.
-    _SPRITE_SIZES = {"Game Sprites.png" : (16, 16), "kirby.png" : (16,16)
+    _SPRITE_SIZES = {"Game Sprites.png" : (16, 16), "kirby.png" : (16,16), "background.png":(WORLD_SIZE[0], WORLD_SIZE[1])
     }
     
     # A default sprite size

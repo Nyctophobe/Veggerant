@@ -4,7 +4,7 @@ from pygame.locals import *
 from Animated import Animated
 
 class Mobile(Animated):
-    def __init__(self, position, fileName="", offset=None, maxSpeed=100):
+    def __init__(self, position, fileName="", offset=None, maxSpeed = 100):
         super().__init__(position, fileName, offset)
         self.velocity = vec(0,0)
         self.maxSpeed = maxSpeed
@@ -19,9 +19,9 @@ class Mobile(Animated):
 
 
 class Player(Mobile):
-    def __init__(self, position, fileName="", offset=None, maxSpeed=100):
-        super().__init__(position, fileName, offset)
-        self.speed = 100
+    def __init__(self, position, fileName="", offset=None, maxSpeed = 100):
+        super().__init__(position, fileName, offset, maxSpeed)
+        self.speed = maxSpeed
 
         self.keyMap = {
             K_w   : False,
